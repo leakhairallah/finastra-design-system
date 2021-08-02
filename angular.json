@@ -337,6 +337,9 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "apps/fds-test-app/extra-webpack.config.js"
+            },
             "outputPath": "dist/apps/fds-test-app",
             "deployUrl": "/fds-theme/",
             "index": "apps/fds-test-app/src/index.html",

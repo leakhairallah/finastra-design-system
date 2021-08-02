@@ -1,1 +1,2 @@
-import '@material/mwc-button';
+import '@material/mwc-button'
+import './test.md'
