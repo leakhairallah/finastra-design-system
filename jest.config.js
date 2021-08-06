@@ -25,6 +25,7 @@ module.exports = {
     '<rootDir>/libs/angular-components/cards/account-card',
     '<rootDir>/libs/angular-components/toaster',
     '<rootDir>/libs/angular-components/video-thumbnail',
-    '<rootDir>/libs/angular-components/status-steps'
+    '<rootDir>/libs/angular-components/status-steps',
+    '<rootDir>/libs/fds-charts'
   ]
 };

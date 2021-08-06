@@ -11,12 +11,15 @@
   "defaultProject": "test",
   "schematics": {
     "@nrwl/angular:application": {
+      "linter": "eslint",
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
     "@nrwl/angular:library": {
+      "linter": "eslint",
       "unitTestRunner": "jest"
-    }
+    },
+    "@nrwl/angular:component": {}
   },
   "projects": {
     "account-card": {
@@ -334,6 +337,28 @@
       "schematics": {
         "@nrwl/angular:component": {
           "styleext": "scss"
+        }
+      }
+    },
+    "fds-charts": {
+      "projectType": "library",
+      "root": "libs/fds-charts",
+      "sourceRoot": "libs/fds-charts/src",
+      "prefix": "finastra",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/fds-charts"],
+          "options": {
+            "jestConfig": "libs/fds-charts/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/fds-charts/src/**/*.ts", "libs/fds-charts/src/**/*.html"]
+          }
         }
       }
     },
