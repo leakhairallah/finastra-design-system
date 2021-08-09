@@ -1,19 +1,16 @@
 const RemarkHTML = require('remark-html')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   module: {
     rules: [
       {
-        test: /\.md$/,
-        type: "asset/resource",
-        generator: {
-          filename: "[name].html",
-        },
-      },
-      {
         test: /\.md?$/,
         exclude: /node_modules/,
         use: [
+          {
+            loader: "html-loader",
+          },
           {
             loader: 'remark-loader',
             options: {
@@ -25,5 +22,12 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Test',
+      filename: 'pages/test.html',
+      template: 'apps/fds-test-app/src/test.md'
+    })
+  ]
 }
