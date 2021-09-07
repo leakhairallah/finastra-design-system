@@ -1,12 +1,14 @@
 import {LitElement, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {select} from 'd3-selection';
-import {color} from 'd3-color';
 import {pie, arc} from 'd3-shape';
+import {scaleOrdinal} from 'd3-scale';
+import {quantize} from 'd3-interpolate';
+import {interpolateSpectral} from 'd3-scale-chromatic';
 
 @customElement('fds-pie-chart')
 export class FdsPieChart extends LitElement {
-  @property()
+  @property({type: Array})
   dataSource:object[];
 
   @query('#chart')
@@ -39,17 +41,22 @@ export class FdsPieChart extends LitElement {
   }
 
   buildChart(chart: any) {
-    const arcs = pie()
-      .value((d:any) => d.value as number)(this.dataSource as any);
+    const pieGen = pie().sort(null).value((d:any) => d.value as number);
+    const arcs = pieGen(this.dataSource as any);
+      // .value((d:any) => d.value as number)(this.dataSource as any);
+    const color = scaleOrdinal()
+      .domain(this.dataSource.map((d:any) => d.tag))
+      .range(quantize(t => interpolateSpectral(t * 0.8 + 0.1), this.dataSource.length).reverse())
     const svg = select(chart)
-      .attr("viewBox", [-200 / 2, -200 / 2, 200, 200] as any);
+      .attr("viewBox", "-100 -100 200 200");
 
     console.log(arcs);
 
     svg.append("g")
       .attr("stroke", "white")
+      .attr("stroke-opacity", 0)
     .selectAll("path")
-    .data(arcs)
+    .data(arcs as any)
     .join("path")
       .attr("fill", (d:any) => color(d.data.tag) as any)
       .attr("d", this.arc)
@@ -57,7 +64,7 @@ export class FdsPieChart extends LitElement {
       .text((d:any) => `${d.data.tag}`);
 
     svg .append("g")
-      .attr("font-family", "sans-serif")
+      .attr("font-family", "Roboto")
       .attr("font-size", 12)
       .attr("text-anchor", "middle")
     .selectAll("text")
